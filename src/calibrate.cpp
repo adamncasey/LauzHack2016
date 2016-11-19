@@ -1,5 +1,7 @@
 #include <keyboard/Flasher.h>
 
+#include <megaheader.h>
+
 #include <algorithm>
 #include <chrono>
 #include <string>
@@ -7,7 +9,7 @@
 
 namespace calibrate {
 
-void calibrateKeyboard(std::string alphabet)
+std::unordered_map<char, cv::Vec2i> calibrateKeyboard(std::string alphabet)
 {
 	using namespace std::chrono_literals;
 
