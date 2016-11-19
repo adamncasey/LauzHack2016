@@ -13,4 +13,9 @@ include_directories(${Lauzhack_SOURCE_DIR}/src)
 include_directories(${Lauzhack_SOURCE_DIR}/include)
                     
 add_executable(main ${Lauzhack_SOURCE_DIR}/src/main.cpp ${Lauzhack_SOURCE_DIR}/src/calibrate.cpp ${Lauzhack_SOURCE_DIR}/src/keyboard/Flasher.cpp)
-target_link_libraries(main ${OpenCV_LIBS} lib_win64/LogitechLEDLib)
+
+target_link_libraries(main ${OpenCV_LIBS})
+
+if(MSVC)
+    target_link_libraries(main lib_win64/LogitechLEDLib)
+endif()
