@@ -21,7 +21,7 @@ int main(int argc, char** argv)
     	sscanf(argv[1], "%d", &i);
     }
 
-    VideoCapture cap("/home/david/Desktop/LauzHack2016/data/WIN_20161119_13_30_14_Pro.mp4");
+    VideoCapture cap("/home/david/Desktop/LauzHack2016/data/testVid_singePresses.mp4");
     cap.set(cv::CAP_PROP_AUTOFOCUS, 0);
     if(!cap.isOpened()){
 	std::cout << "Failed to open camera." << std::endl;
@@ -33,9 +33,16 @@ int main(int argc, char** argv)
 
         Mat frame;
         cap >> frame; // get a new frame from camera
-        imshow("frame",frame);
 
-        if(waitKey(30) >= 0) break;
+
+
+        cv::Vec2i coords(280,200);
+        std::cout << "h " <<  getColourAtPoint(coords,frame)[0]/255*360 << std::endl;
+
+        circle(frame, coords, 8, Scalar(255,255,255), 1, 8);
+        imshow("frame",frame);
+        waitKey();
+        //if(waitKey(30) >= 0) break;
     }
 
     return 0;
