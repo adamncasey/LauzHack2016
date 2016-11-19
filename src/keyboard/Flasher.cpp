@@ -3,14 +3,13 @@
 #include <iostream>
 #include <stdexcept>
 
+#ifdef _WIN32
+#include <LogitechLEDLib.h>	
+#endif
+
 namespace keyboard {
 
 #ifdef _WIN32
-#include <LogitechLEDLib.h>
-
-
-	
-
 namespace {
 	LogiLed::KeyName mapFromKeyNum(KeyNum key) {
 		switch(key) {
