@@ -7,11 +7,10 @@
 
 namespace calibrate {
 
-void runCalibration()
+void calibrateKeyboard(std::string alphabet)
 {
 	using namespace std::chrono_literals;
 
-	static const std::string alphabet = "abcdefghijklmnopqrstuvwxyz";
 	static const keyboard::DurationMs duration = 10;
 	
 	keyboard::Flasher flasher;
