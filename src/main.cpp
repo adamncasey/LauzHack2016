@@ -21,7 +21,7 @@ int main(int argc, char** argv)
 	std::string alphabet = "abcdefghijklmnopqrstuvwxyz:";
     std::unordered_map<char, cv::Vec2i> keysToLocationMap {{'a',cv::Vec2i(0,0)},{'a',cv::Vec2i(0,0)},{'s',cv::Vec2i(0,0)},{'d',cv::Vec2i(0,0)},{'f',cv::Vec2i(0,0)},{'j',cv::Vec2i(0,0)},{'k',cv::Vec2i(0,0)},{'l',cv::Vec2i(0,0)},{';',cv::Vec2i(0,0)}};
     cv::Mat frame;
-    std::unordered_map<double, Finger> colourFingerMapping = calibrateColours(keysToLocationMap, frame);
+    std::map<AlphaDisruptColourTransform, Finger> colourFingerMapping = calibrateColours(keysToLocationMap, frame);
     /*for(std::unordered_map<double, Finger>::iterator colourFingerIterator = colourFingerMapping.begin(); colourFingerIterator != colourFingerMapping.end(); colourFingerIterator++){
         std::cout << (*colourFingerIterator).first << " -> " << (int)(*colourFingerIterator).second << std::endl;
     }

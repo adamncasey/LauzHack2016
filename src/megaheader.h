@@ -17,6 +17,15 @@ enum class Finger
     SMALL_RIGHT
 };
 
+struct AlphaDisruptColourTransform{
+    double hue;
+    double saturation;
+    bool operator<(const AlphaDisruptColourTransform &b) const {
+        return sqrt(pow(this->hue,2) + pow(this->saturation, 2)) < sqrt(pow(b.hue,2) + pow(b.saturation, 2));
+    };
+
+};
+
 double getColourAtPoint(const cv::Vec2i& coords);
 std::unordered_map<char, cv::Vec2i> calibrateKeyboard(std::string keys);
-std::unordered_map<double, Finger> calibrateColours(std::unordered_map<char, cv::Vec2i>, cv::Mat frame);
+std::map<AlphaDisruptColourTransform, Finger> calibrateColours(std::unordered_map<char, cv::Vec2i>, cv::Mat frame);
