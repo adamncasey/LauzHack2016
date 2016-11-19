@@ -30,8 +30,10 @@ int main(int argc, char** argv)
 	typedef std::unordered_map<double, std::vector<Finger>> ColourFingerMap;
 	ColourFingerMap colourFingerMap = calibrateColours(keyPointMap);
 
+
 	while (true) {
 		const char key = readKeyboardInput();
+
 
 		std::unordered_map<char, cv::Vec2i>::const_iterator pointIt = keyPointMap.find(key);
 
@@ -39,6 +41,7 @@ int main(int argc, char** argv)
 			std::cout << "Unknown key pressed: " << key << std::endl;
 			continue;
 		}
+
 
 		const cv::Vec2i point = pointIt->second;
 
@@ -67,30 +70,3 @@ int main(int argc, char** argv)
     return 0;
 }
 
-// Not used
-void davidStuff(int argc, char** argv) {
-	// Default camera ID.
-	int i = 0;
-
-	if (argc > 1) {
-		// Custom camera ID from argv.
-		sscanf(argv[1], "%d", &i);
-	}
-
-	VideoCapture cap("/home/david/Desktop/LauzHack2016/data/WIN_20161119_13_30_14_Pro.mp4");
-	cap.set(cv::CAP_PROP_AUTOFOCUS, 0);
-	if (!cap.isOpened()) {
-		std::cout << "Failed to open camera." << std::endl;
-		return;
-	}
-
-
-	for (;;) {
-
-		Mat frame;
-		cap >> frame; // get a new frame from camera
-		imshow("frame", frame);
-
-		if (waitKey(30) >= 0) break;
-	}
-}

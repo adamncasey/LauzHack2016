@@ -12,7 +12,7 @@ include_directories(${OpenCV_INCLUDE_DIRS})
 include_directories(${Lauzhack_SOURCE_DIR}/src)
 include_directories(${Lauzhack_SOURCE_DIR}/include)
                     
-add_executable(main ${Lauzhack_SOURCE_DIR}/src/main.cpp ${Lauzhack_SOURCE_DIR}/src/calibrate.cpp ${Lauzhack_SOURCE_DIR}/src/keyboard/Flasher.cpp ${Lauzhack_SOURCE_DIR}/src/calibrateColors.cpp)
+add_executable(main ${Lauzhack_SOURCE_DIR}/src/main.cpp ${Lauzhack_SOURCE_DIR}/src/calibrate.cpp ${Lauzhack_SOURCE_DIR}/src/colour.cpp  ${Lauzhack_SOURCE_DIR}/src/keyboard/Flasher.cpp ${Lauzhack_SOURCE_DIR}/src/calibrateColors.cpp)
 
 target_link_libraries(main ${OpenCV_LIBS})
 
