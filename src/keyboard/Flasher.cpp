@@ -3,10 +3,12 @@
 #include <iostream>
 #include <stdexcept>
 
+namespace keyboard {
+
 #ifndef __linux__
 #include <LogitechLEDLib.h>
 
-namespace keyboard {
+
 	
 
 namespace {
@@ -95,7 +97,7 @@ void Flasher::flashKey(KeyNum key, DurationMs duration) {
 
 
 #else
-namespace keyboard {
+
 Flasher::Flasher() {
 	std::cout << "Not initialising keyboard as not built for windows" << std::endl;
 }
@@ -103,8 +105,7 @@ Flasher::~Flasher() {}
 void Flasher::flashKey(KeyNum key, DurationMs duration) {
 	
 }
-}
+
 
 #endif
-
 }

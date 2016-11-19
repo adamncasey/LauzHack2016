@@ -12,7 +12,7 @@ void runCalibration()
 	using namespace std::chrono_literals;
 
 	static const std::string alphabet = "abcdefghijklmnopqrstuvwxyz";
-	static const keyboard::DurationMs duration = 500;
+	static const keyboard::DurationMs duration = 10;
 	
 	keyboard::Flasher flasher;
 	std::this_thread::sleep_for(1s);
