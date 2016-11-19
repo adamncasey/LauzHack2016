@@ -2,13 +2,16 @@
 #include <opencv2/core/core.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 
-#include <calibrate.h>
+#include <unordered_map>
+
+#include <megaheader.h>
 
 using namespace cv;
 
 int main(int argc, char** argv)
 {
-	calibrate::runCalibration();
+	std::string alphabet = "abcdefghijklmnopqrstuvwxyz";
+	std::unordered_map<char, cv::Vec2i> keyPointMap = calibrateKeyboard(alphabet);
 
     // Default camera ID.
     int i = 0;

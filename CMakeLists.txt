@@ -16,6 +16,6 @@ add_executable(main ${Lauzhack_SOURCE_DIR}/src/main.cpp ${Lauzhack_SOURCE_DIR}/s
 
 target_link_libraries(main ${OpenCV_LIBS})
 
-if(MSVC)
+if(NOT UNIX)
     target_link_libraries(main lib_win64/LogitechLEDLib)
 endif()
