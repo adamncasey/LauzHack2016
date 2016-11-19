@@ -62,3 +62,5 @@ CMakeCache.txt
 x64/
 *.vcxproj.user
 cmake_install.cmake
+
+.project
