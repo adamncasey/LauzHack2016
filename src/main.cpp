@@ -2,10 +2,13 @@
 #include <opencv2/core/core.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 
+#include <calibrate.h>
+
 using namespace cv;
 
 int main(int argc, char** argv)
 {
+	calibrate::runCalibration();
 
     // Default camera ID.
     int i = 0;

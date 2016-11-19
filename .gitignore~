@@ -40,3 +40,26 @@ jspm_packages
 *Build*
 
 *~*
+<<<<<<< HEAD
+.cproject
+.project
+=======
+
+.idea
+
+.vs/
+*.vcxproj
+CMakeFiles/
+CMakeCache.txt
+*.opendb
+*.db
+*.sln
+*.filters
+*.exe
+*.dll
+*.obj
+
+x64/
+*.vcxproj.user
+cmake_install.cmake
+>>>>>>> fb174d3272723dc9492a90ae06d88dfa022a192a
