@@ -7,7 +7,7 @@
 #include <string>
 #include <thread>
 
-namespace calibrate {
+
 
 std::unordered_map<char, cv::Vec2i> calibrateKeyboard(std::string alphabet)
 {
@@ -29,4 +29,4 @@ std::unordered_map<char, cv::Vec2i> calibrateKeyboard(std::string alphabet)
 	return std::unordered_map<char, cv::Vec2i>();
 }
 
-}
+
