@@ -1,6 +1,6 @@
 #include <megaheader.h>
 
-cv::Vec2d getColourAtPoint(const cv::Vec2i& coords, cv::Mat image) {
+AlphaDisruptColourTransform getColourAtPoint(const cv::Vec2i& coords, cv::Mat image) {
 
     cv::Mat imageHSV;
     cvtColor(image,imageHSV,CV_BGR2HSV);
@@ -19,6 +19,8 @@ cv::Vec2d getColourAtPoint(const cv::Vec2i& coords, cv::Mat image) {
 
     hue = hue/idx;
     sat = sat/idx;
-    return cv::Vec2d(hue,sat);
+
+    AlphaDisruptColourTransform colour = {hue,sat};
+    return colour;
 
 }

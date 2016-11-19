@@ -34,7 +34,6 @@ std::vector <char> leftKeyboardSide{'q','a','z','w','s','x','e','d','c','r','f',
 std::vector<char> rightKeyboardSide{'z','h','n','u','j','m','i','k','o','l','p',';'};
 
 
-
 AlphaDisruptColourTransform getColourAtPoint(const cv::Vec2i& coords, cv::Mat image);
 
 std::unordered_map<char, cv::Vec2i> calibrateKeyboard(std::string keys);

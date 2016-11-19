@@ -25,6 +25,7 @@ std::map<AlphaDisruptColourTransform, Finger> calibrateColours(std::unordered_ma
     
 }
 
+
 Finger getFinger(std::map<AlphaDisruptColourTransform, Finger> colorToFingerMap, char pressedKey, std::unordered_map<char, cv::Vec2d> keysToLocationMap, cv::Mat image){
     cv::Vec2d coords = keysToLocationMap.find(pressedKey)->second;
     AlphaDisruptColourTransform colour = getColourAtPoint(coords, image);
@@ -67,3 +68,4 @@ Finger getFinger(std::map<AlphaDisruptColourTransform, Finger> colorToFingerMap,
     }
     
 }
+

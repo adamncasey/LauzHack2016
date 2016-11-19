@@ -97,6 +97,18 @@ void Flasher::flashKey(KeyNum key, DurationMs duration) {
 	std::cout << "flashed " << key << " for " << duration << " ms" << std::endl;
 }
 
+//void Flasher::setFingerMap() {
+//
+//    LogiLed::KeyName logitechKey = mapFromKeyNum(key);
+//
+//    LogiLedFlashSingleKey(logitechKey, RED, GREEN, BLUE, duration, duration/2);
+//
+//    LogiLedSetLightingForKeyWithKeyName(LogiLed::KeyName keyName, int redPercentage, int greenPercentage, int bluePercentage);
+//
+//}
+
+
+
 
 #else
 
