@@ -25,6 +25,8 @@ std::unordered_map<char, cv::Vec2i> calibrateKeyboard(std::string alphabet)
 
 		std::this_thread::sleep_for(std::chrono::milliseconds(duration*2));
 	});
+
+	return std::unordered_map<char, cv::Vec2i>();
 }
 
 }
