@@ -5,7 +5,7 @@
 
 namespace keyboard {
 
-#ifndef __linux__
+#ifdef _WIN32
 #include <LogitechLEDLib.h>
 
 

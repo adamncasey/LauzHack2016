@@ -8,10 +8,18 @@
 
 using namespace cv;
 
+char readKeyboardInput() {
+	return 'a';
+}
+
+bool filterFingersForKey(const char key, const std::vector<Finger>& possible, Finger* output) {
+	return false;
+}
+
 int main(int argc, char** argv)
 {
 	std::string alphabet = "abcdefghijklmnopqrstuvwxyz:";
-	std::unordered_map<char, cv::Vec2i> keyPointMap = calibrateKeyboard(alphabet);
+	/*std::unordered_map<char, cv::Vec2i> keyPointMap = calibrateKeyboard(alphabet);
 
 	typedef std::unordered_map<double, std::vector<Finger>> ColourFingerMap;
 	ColourFingerMap colourFingerMap = calibrateColours(keyPointMap);
@@ -44,11 +52,11 @@ int main(int argc, char** argv)
 		if (!filterFingersForKey(key, possibleFingers, &finalFinger)) {
 			std::cout << "Could not resolve fingers for key: " << key << ". Possible fingers: ";
 			for_each(possibleFingers.begin(), possibleFingers.end(), [&](auto fng) {
-				std::cout << fng << " " << std::endl;
-			})
+				std::cout << (int)fng << " " << std::endl;
+			});
 		}
 		
-	}
+	}*/
     
     return 0;
 }
