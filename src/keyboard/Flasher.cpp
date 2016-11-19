@@ -66,6 +66,8 @@ namespace {
 				return LogiLed::Y;
 			case 'z':
 				return LogiLed::Z;
+			case ':':
+				return LogiLed::SEMICOLON;
 		}
 		
 		return LogiLed::ESC;
