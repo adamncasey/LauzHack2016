@@ -19,4 +19,4 @@ enum class Finger
 
 double getColourAtPoint(const cv::Vec2i& coords);
 std::unordered_map<char, cv::Vec2i> calibrateKeyboard(std::string keys);
-std::unordered_map<double, std::vector<Finger>> calibrateColours(std::unordered_map<char, cv::Vec2i>);
+std::unordered_map<double, Finger> calibrateColours(std::unordered_map<char, cv::Vec2i>, cv::Mat frame);
