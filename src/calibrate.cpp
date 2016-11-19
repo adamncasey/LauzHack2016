@@ -1,7 +1,6 @@
-//#include <keyboard/Flasher.h>
+#include <keyboard/Flasher.h>
 #include <opencv2/core/core.hpp>
 #include <opencv2/opencv.hpp>
-#include <opencv2/imgproc/imgproc.hpp>
 #include <megaheader.h>
 
 #include <algorithm>
@@ -18,31 +17,39 @@ std::unordered_map<char, cv::Vec2i> calibrateKeyboard(std::string alphabet)
 {
 	using namespace std::chrono_literals;
 
-//	static const keyboard::DurationMs duration = 10;
-//	keyboard::Flasher flasher;
-//
-//	std::this_thread::sleep_for(1s);
+	static const keyboard::DurationMs duration = 10;
+	keyboard::Flasher flasher;
 
-    Mat reference;
-    reference = imread("/home/richard/projects/LauzHack2016/data/calibRef.png", CV_LOAD_IMAGE_COLOR);
+	std::this_thread::sleep_for(1s);
 
-    Mat referenceBw;
-    cvtColor(reference,referenceBw, CV_RGB2GRAY);
-
-    GaussianBlur(referenceBw,referenceBw,Size(3,3),0);
+//    Mat reference;
+//    reference = imread("/home/richard/projects/LauzHack2016/data/calibRef.png", CV_LOAD_IMAGE_COLOR);
 
 
-//	std::for_each(alphabet.begin(), alphabet.end(), [&](const char ch) {
-//		keyboard::KeyNum key = ch;
-//
-//		flasher.flashKey(key, duration);
-//
-//		std::this_thread::sleep_for(std::chrono::milliseconds(duration*2));
+	std::for_each(alphabet.begin(), alphabet.end(), [&](const char ch) {
+
+        VideoCapture cap(0);
+
+        // TODO: Turn Keyboard lights off here and wait a bit
+
+        Mat reference;
+        cap >> reference;
+
+        Mat referenceBw;
+        cvtColor(reference,referenceBw, CV_RGB2GRAY);
+
+        GaussianBlur(referenceBw,referenceBw,Size(3,3),0);
+
+		keyboard::KeyNum key = ch;
+		flasher.flashKey(key, duration);
+		std::this_thread::sleep_for(std::chrono::milliseconds(duration*2));
 
 //        VideoCapture cap("/home/richard/projects/LauzHack2016/data/calib.mp4");
+//        frame = imread("/home/richard/projects/LauzHack2016/data/calibA.png", CV_LOAD_IMAGE_COLOR);
 
         Mat frame;
-        frame = imread("/home/richard/projects/LauzHack2016/data/calibA.png", CV_LOAD_IMAGE_COLOR);
+        cap >> frame;
+
 
         Mat frameBw;
         cvtColor(frame,frameBw, CV_RGB2GRAY);
@@ -75,18 +82,13 @@ std::unordered_map<char, cv::Vec2i> calibrateKeyboard(std::string alphabet)
 
         circle(frame, Point(cx,cy), 8, Scalar(255, 255, 255), 1, 8);
 
-//        Mat labelImage(frameBw.size(), CV_16U);
-//        int nLabels = connectedComponents(frameBw, labelImage, 8);
-
-//        cout << sum(frameBw)[0] << endl;
-
         namedWindow( "Display window", WINDOW_AUTOSIZE );// Create a window for display.
         imshow( "Display window", frame );                   // Show our image inside it.
         waitKey();
 
+        // TODO write position to output here
 
-
-//    });
+    });
 
 	return std::unordered_map<char, cv::Vec2i>();
 }
