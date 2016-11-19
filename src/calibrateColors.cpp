@@ -4,7 +4,7 @@
 #include <string>
 #include <thread>
 
-std::map<AlphaDisruptColourTransform, Finger> calibrateColours(std::unordered_map<char, cv::Vec2d> keysToLocationMap, cv::Mat frame){
+std::map<AlphaDisruptColourTransform, Finger> calibrateColours(std::unordered_map<char, cv::Vec2i> keysToLocationMap, cv::Mat frame){
     
     std::map<AlphaDisruptColourTransform, Finger> calibrationMap;
     std::map<char, Finger> calibrationKeys {{'a',Finger::SMALL_LEFT},{'a',Finger::SMALL_LEFT},{'s',Finger::RING_LEFT},{'d',Finger::MIDDLE_LEFT},{'f',Finger::POINTING_LEFT},{'j',Finger::POINTING_RIGHT},{'k',Finger::MIDDLE_RIGHT},{'l',Finger::RING_RIGHT},{';',Finger::SMALL_RIGHT}};
@@ -26,7 +26,7 @@ std::map<AlphaDisruptColourTransform, Finger> calibrateColours(std::unordered_ma
 }
 
 
-bool checkForCorrectFinger(std::map<AlphaDisruptColourTransform, Finger> colorToFingerMap, char pressedKey, std::unordered_map<char, cv::Vec2d> keysToLocationMap, cv::Mat image){
+bool checkForCorrectFinger(std::map<AlphaDisruptColourTransform, Finger> colorToFingerMap, char pressedKey, std::unordered_map<char, cv::Vec2i> keysToLocationMap, cv::Mat image) {
     
     cv::Vec2d coords = keysToLocationMap.find(pressedKey)->second;
     AlphaDisruptColourTransform colour{

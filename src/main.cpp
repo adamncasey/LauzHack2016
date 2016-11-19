@@ -8,17 +8,6 @@
 
 using namespace cv;
 
-int main(int argc, char** argv)
-{
-
-	std::string alphabet = "abcdefghijklmnopqrstuvwxyz";
-    std::unordered_map<char, cv::Vec2d> keysToLocationMap;
-    cv::Mat image;
-	//std::unordered_map<char, cv::Vec2i> keyPointMap = calibrateKeyboard(alphabet);
-    std::map<AlphaDisruptColourTransform, Finger> colorToFingerMap = calibrateColours(keysToLocationMap, image);
-    bool isCorrect = checkForCorrectFinger(colorToFingerMap, 'd', keysToLocationMap, image);
-    
-    std::cout << "Used correct Finger? " << isCorrect << std::endl;
 //    // Default camera ID.
 //    int i = 0;
 //
@@ -45,4 +34,92 @@ int main(int argc, char** argv)
 //    }
 //
 //    return 0;
+
+char readKeyboardInput() {
+	return 'a';
 }
+
+typedef std::unordered_map<double, std::vector<Finger>> ColourFingerMap;
+
+bool filterFingersForKey(const char key, const std::vector<Finger>& possible, Finger* output) {
+	std::cout << "filterFingersForKey not implemented" << std::endl;
+	return false;
+}
+
+bool getFingerForKeyPress(const char key, const std::unordered_map<char, cv::Vec2i>& keyPointMap,
+	const ColourFingerMap& colourFingerMap,
+	Finger* outFinger);
+
+int main(int argc, char** argv)
+{
+	static const std::string alphabet = "abcdefghijklmnopqrstuvwxyz:";
+    //std::unordered_map<char, cv::Vec2i> keysToLocationMap {{'a',cv::Vec2i(0,0)},{'a',cv::Vec2i(0,0)},{'s',cv::Vec2i(0,0)},{'d',cv::Vec2i(0,0)},{'f',cv::Vec2i(0,0)},{'j',cv::Vec2i(0,0)},{'k',cv::Vec2i(0,0)},{'l',cv::Vec2i(0,0)},{';',cv::Vec2i(0,0)}};
+    cv::Mat frame;
+    
+	const std::unordered_map<char, cv::Vec2i> keyPointMap = calibrateKeyboard(alphabet);
+
+	cv::Mat image;
+	//std::unordered_map<char, cv::Vec2i> keyPointMap = calibrateKeyboard(alphabet);
+	std::map<AlphaDisruptColourTransform, Finger> colorToFingerMap = calibrateColours(keyPointMap, image);
+	bool isCorrect = checkForCorrectFinger(colorToFingerMap, 'd', keyPointMap, image);
+
+	std::cout << "Used correct Finger? " << isCorrect << std::endl;
+
+	/*ColourFingerMap colourFingerMap = calibrateColours(keyPointMap, frame);
+
+
+	while (true) {
+		const char key = readKeyboardInput();
+
+		Finger finger;
+		if (!getFingerForKeyPress(key, keyPointMap, colourFingerMap, &finger)) {
+			std::cout << "Failed to find a finger for a key: " << key << std::endl;
+			continue;
+		}
+
+		std::cout << "We detected a '" << key << "' pressed with finger: " 
+				  << (int)finger << std::endl;
+		
+	}*/
+    
+    return 0;
+}
+
+/*
+bool getFingerForKeyPress(const char key, const std::unordered_map<char, cv::Vec2i>& keyPointMap,
+	const ColourFingerMap& colourFingerMap,
+	Finger* outFinger) 
+{
+	std::unordered_map<char, cv::Vec2i>::const_iterator pointIt = keyPointMap.find(key);
+
+	if (pointIt == keyPointMap.end()) {
+		std::cout << "Unknown key pressed: " << key << std::endl;
+		return false;
+	}
+
+	const cv::Vec2i point = pointIt->second;
+
+	const double colour = getColourAtPoint(point);
+
+	ColourFingerMap::const_iterator fingersIt = colourFingerMap.find(colour);
+
+	if (fingersIt == colourFingerMap.end()) {
+		std::cout << "Could not find finger for colour: " << colour << std::endl;
+		return false;
+	}
+
+	const std::vector<Finger> possibleFingers = fingersIt->second;
+
+	Finger finalFinger;
+
+	if (!filterFingersForKey(key, possibleFingers, &finalFinger)) {
+		std::cout << "Could not resolve fingers for key: " << key << ". Possible fingers: ";
+		for_each(possibleFingers.begin(), possibleFingers.end(), [&](auto fng) {
+			std::cout << (int)fng << " " << std::endl;
+		});
+		return false;
+	}
+
+	return true;
+}
+*/
