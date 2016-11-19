@@ -5,7 +5,7 @@
 
 namespace keyboard {
 
-#ifndef __linux__
+#ifdef _WIN32
 #include <LogitechLEDLib.h>
 
 
@@ -66,6 +66,8 @@ namespace {
 				return LogiLed::Y;
 			case 'z':
 				return LogiLed::Z;
+			case ':':
+				return LogiLed::SEMICOLON;
 		}
 		
 		return LogiLed::ESC;
