@@ -163,6 +163,30 @@ src/calibrateColors.cpp.s:
 	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/calibrateColors.cpp.s
 .PHONY : src/calibrateColors.cpp.s
 
+src/colour.o: src/colour.cpp.o
+.PHONY : src/colour.o
+
+# target to build an object file
+src/colour.cpp.o:
+	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/colour.cpp.o
+.PHONY : src/colour.cpp.o
+
+src/colour.i: src/colour.cpp.i
+.PHONY : src/colour.i
+
+# target to preprocess a source file
+src/colour.cpp.i:
+	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/colour.cpp.i
+.PHONY : src/colour.cpp.i
+
+src/colour.s: src/colour.cpp.s
+.PHONY : src/colour.s
+
+# target to generate assembly for a file
+src/colour.cpp.s:
+	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/colour.cpp.s
+.PHONY : src/colour.cpp.s
+
 src/keyboard/Flasher.o: src/keyboard/Flasher.cpp.o
 .PHONY : src/keyboard/Flasher.o
 
@@ -226,6 +250,9 @@ help:
 	@echo "... src/calibrateColors.o"
 	@echo "... src/calibrateColors.i"
 	@echo "... src/calibrateColors.s"
+	@echo "... src/colour.o"
+	@echo "... src/colour.i"
+	@echo "... src/colour.s"
 	@echo "... src/keyboard/Flasher.o"
 	@echo "... src/keyboard/Flasher.i"
 	@echo "... src/keyboard/Flasher.s"

@@ -21,16 +21,22 @@ enum class Finger
 struct AlphaDisruptColourTransform{
     double hue;
     double saturation;
+    char key;
+    double distanceToDetectedColor;
+    
     bool operator<(const AlphaDisruptColourTransform &b) const {
         return sqrt(pow(this->hue,2) + pow(this->saturation, 2)) < sqrt(pow(b.hue,2) + pow(b.saturation, 2));
     };
 
 };
 
+std::vector <char> leftKeyboardSide{'q','a','z','w','s','x','e','d','c','r','f','v','t','g','b'};
+std::vector<char> rightKeyboardSide{'z','h','n','u','j','m','i','k','o','l','p',';'};
 
 
-cv::Vec2d getColourAtPoint(const cv::Vec2i& coords, cv::Mat image);
+
+AlphaDisruptColourTransform getColourAtPoint(const cv::Vec2i& coords, cv::Mat image);
 
 std::unordered_map<char, cv::Vec2i> calibrateKeyboard(std::string keys);
 std::map<AlphaDisruptColourTransform, Finger> calibrateColours(std::unordered_map<char, cv::Vec2i>, cv::Mat frame);
-Finger getFinger(std::map<AlphaDisruptColourTransform, Finger>, char pressedKey, std::unordered_map<char, cv::Vec2i> keysToLocationMap);
+Finger getFinger(std::map<AlphaDisruptColourTransform, Finger> colorToFingerMap, char pressedKey, std::unordered_map<char, cv::Vec2d> keysToLocationMap, cv::Mat image);
