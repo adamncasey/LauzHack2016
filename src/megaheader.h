@@ -29,7 +29,7 @@ struct AlphaDisruptColourTransform{
 
 
 
-cv::Vec2d getColourAtPoint(const cv::Vec2i& coords, cv::Mat image);
+AlphaDisruptColourTransform getColourAtPoint(const cv::Vec2i& coords, cv::Mat image);
 
 std::unordered_map<char, cv::Vec2i> calibrateKeyboard(std::string keys);
 std::map<AlphaDisruptColourTransform, Finger> calibrateColours(std::unordered_map<char, cv::Vec2i>, cv::Mat frame);
