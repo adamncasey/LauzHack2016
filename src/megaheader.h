@@ -7,10 +7,14 @@
 
 enum class Finger
 {
-	SMALL,
-	RING,
-	MIDDLE,
-	POINTING
+	SMALL_LEFT,
+	RING_LEFT,
+	MIDDLE_LEFT,
+	POINTING_LEFT,
+    POINTING_RIGHT,
+    MIDDLE_RIGHT,
+    RING_RIGHT,
+    SMALL_RIGHT
 };
 
 double getColourAtPoint(const cv::Vec2i& coords);
