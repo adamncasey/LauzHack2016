@@ -2,9 +2,19 @@
 
 using namespace cv;
 
-int main(int, char**)
+int main(int argc, char** argv)
 {
-    VideoCapture cap(1); 
+
+    // Default camera ID.
+    int i = 0;
+    
+    if(argc > 1) {
+	// Custom camera ID from argv.
+    	sscanf(argv[1], "%d", &i);
+    }
+
+    VideoCapture cap(i);
+    cap.set(cv::CAP_PROP_AUTOFOCUS, 0);
     if(!cap.isOpened()){
 	std::cout << "Failed to open camera." << std::endl;
         return -1;
