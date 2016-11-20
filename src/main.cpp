@@ -84,7 +84,7 @@ int main(int argc, char** argv)
     
     return 0;
 }
-
+/*
 bool getFingerForKeyPress(const char key, const std::unordered_map<char, cv::Vec2i>& keyPointMap,
 	const ColourFingerMap& colourFingerMap,
 	Finger* outFinger) 

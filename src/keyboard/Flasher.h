@@ -16,6 +16,8 @@ public:
 	virtual ~Flasher();
 
 	void flashKey(KeyNum key, DurationMs duration);
+
+	void setFingerMap();
 	
 };
 

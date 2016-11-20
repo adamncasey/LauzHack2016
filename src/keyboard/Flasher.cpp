@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <stdexcept>
+#include <vector>
 
 #ifdef _WIN32
 #include <LogitechLEDLib.h>	
@@ -73,7 +74,7 @@ namespace keyboard {
 	}
 namespace {
 	
-	void setLigthingForKeys(std::vector<LogiLed::KeyName>& keyName, int redPercentage, int greenPercentage, int bluePercentage) {
+	void setLightingForKeys(std::vector<LogiLed::KeyName>& keyName, int redPercentage, int greenPercentage, int bluePercentage) {
 	    for(LogiLed::KeyName key:keyName) {
 	        LogiLedSetLightingForKeyWithKeyName(key, redPercentage, greenPercentage, bluePercentage);
 	    }
@@ -109,20 +110,20 @@ void Flasher::setFingerMap() {
     keyVec.push_back(mapFromKeyNum('q'));
     keyVec.push_back(mapFromKeyNum('a'));
     keyVec.push_back(mapFromKeyNum('z'));
-    setLigthingForKeys(keyVec,100,0,0);
-    keyVec.clear;
+    setLightingForKeys(keyVec,100,0,0);
+    keyVec.clear();
 
     keyVec.push_back(mapFromKeyNum('w'));
     keyVec.push_back(mapFromKeyNum('s'));
     keyVec.push_back(mapFromKeyNum('x'));
-    setLigthingForKeys(keyVec,0,100,0);
-    keyVec.clear;
+    setLightingForKeys(keyVec,0,100,0);
+    keyVec.clear();
 
     keyVec.push_back(mapFromKeyNum('e'));
     keyVec.push_back(mapFromKeyNum('d'));
     keyVec.push_back(mapFromKeyNum('c'));
-    setLigthingForKeys(keyVec,0,0,100);
-    keyVec.clear;
+    setLightingForKeys(keyVec,0,0,100);
+    keyVec.clear();
 
     keyVec.push_back(mapFromKeyNum('r'));
     keyVec.push_back(mapFromKeyNum('f'));
@@ -130,8 +131,8 @@ void Flasher::setFingerMap() {
     keyVec.push_back(mapFromKeyNum('t'));
     keyVec.push_back(mapFromKeyNum('g'));
     keyVec.push_back(mapFromKeyNum('b'));
-    setLigthingForKeys(keyVec,100,100,100);
-    keyVec.clear;
+    setLightingForKeys(keyVec,100,100,100);
+    keyVec.clear();
 
     keyVec.push_back(mapFromKeyNum('y'));
     keyVec.push_back(mapFromKeyNum('h'));
@@ -139,27 +140,22 @@ void Flasher::setFingerMap() {
     keyVec.push_back(mapFromKeyNum('u'));
     keyVec.push_back(mapFromKeyNum('j'));
     keyVec.push_back(mapFromKeyNum('m'));
-    setLigthingForKeys(keyVec,100,50,0);
-    keyVec.clear;
+    setLightingForKeys(keyVec,100,50,0);
+    keyVec.clear();
 
     keyVec.push_back(mapFromKeyNum('i'));
     keyVec.push_back(mapFromKeyNum('k'));
-    setLigthingForKeys(keyVec,50,0,50);
-    keyVec.clear;
+    setLightingForKeys(keyVec,50,0,50);
+    keyVec.clear();
 
     keyVec.push_back(mapFromKeyNum('o'));
     keyVec.push_back(mapFromKeyNum('l'));
-    setLigthingForKeys(keyVec,0,50,50);
-    keyVec.clear;
+    setLightingForKeys(keyVec,0,50,50);
+    keyVec.clear();
 
     keyVec.push_back(mapFromKeyNum('p'));
-    setLigthingForKeys(keyVec,50,50,0);
-    keyVec.clear;
-
-}
-
-
-void Flasher::SetLigthingForKeys(std::vector<LogiLed::KeyName>& keyName, int redPercentage, int greenPercentage, int bluePercentage) {
+    setLightingForKeys(keyVec,50,50,0);
+    keyVec.clear();
 
 }
 
