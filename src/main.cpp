@@ -3,6 +3,7 @@
 #include <opencv2/imgproc/imgproc.hpp>
 
 #include <unordered_map>
+#include <chrono>
 
 #include <megaheader.h>
 
@@ -22,10 +23,15 @@ bool getFingerForKeyPress(const char key, const std::unordered_map<char, cv::Vec
 
 int main(int argc, char** argv)
 {
+    std::map<char, int> keyMap;
 	static const std::string alphabet = "abcdefghijklmnopqrstuvwxyz;";
 
 	VideoCapture capture(1);
 	capture.set(cv::CAP_PROP_AUTOFOCUS, 0);
+	capture.set(cv::CAP_PROP_BUFFERSIZE, 1);
+	capture.set(cv::CAP_PROP_FPS, 30);
+
+	std::cout << "Camera FPS: " << capture.get(cv::CAP_PROP_FPS) << std::endl;
 
 	namedWindow("Display window", WINDOW_AUTOSIZE);// Create a window for display.
 
@@ -37,8 +43,8 @@ int main(int argc, char** argv)
     
 	const std::unordered_map<char, cv::Vec2i> keyPointMap = calibrateKeyboard(alphabet, capture);
 
-	std::cout << "Keyboard Calibrated. Please place your hands on the home keys." << std::endl;
-	std::cout << "Press any home key to continue" << std:: endl;
+	std::cout << "Keyboard Calibrated. Please place your hands on these keys: (a, w, e, f) and (j, i, o, ;)" << std::endl;
+	std::cout << "Press any key to continue" << std:: endl;
 	waitKey();
 
 	for (int i = 1; i < 20; i++) {
@@ -46,21 +52,45 @@ int main(int argc, char** argv)
 	}
 	std::map<AlphaDisruptColourTransform, Finger> colourFingerMap = calibrateColours(keyPointMap, frame);
 
+	double correctProp = 0;
+	int numTries = 0;
+	double numCorrect = 0;
+
 	while (true) {
 		int key = cv::waitKey(15);
 		if (key == -1) {
 			continue;
 		}
+		auto duration = std::chrono::system_clock::now().time_since_epoch();
+		auto duration_ms = std::chrono::duration_cast<std::chrono::milliseconds>(duration);
+
+		std::cout << "System time ms: " << duration_ms.count() << std::endl;
+
+		capture >> frame;
+
 		capture >> frame;
 		capture >> frame;
+
+
 		capture >> frame;
-		capture >> frame;
-		capture >> frame;
+		Mat frame2;
+		capture >> frame2;
+
+		cv::addWeighted(frame2, 0.5, frame, 0.5, 0.0, frame);
+
+		numTries++;
 
 		if (!getFingerForKeyPress(key, keyPointMap, colourFingerMap, capture)) {
 			std::cout << "Failed to find a finger for a key: " << key << std::endl;
 
-			frame = createGui(frame, 1)
+            std::map<char, int>::iterator currentKeyIt = keyMap.find((char)key);
+            if(currentKeyIt == keyMap.end()){
+                keyMap.insert({(char)key, 1});
+            }else{
+                keyMap.insert({(char) key, currentKeyIt->second+1});
+            }
+
+			frame = createGui(frame, 1);
 			cv::imshow("Display window", frame);
 
 			continue;
@@ -68,11 +98,15 @@ int main(int argc, char** argv)
 
 		std::cout << "We detected a '" << key << "' pressed with correct finger" << std::endl;
 
-		frame = createGui(frame, 0)
+		frame = createGui(frame, 0);
 		cv::imshow("Display window", frame);
-		
-	}
-    
+
+        numCorrect += 1.0;
+        correctProp = numCorrect/numTries;
+        std::cout << "Correct! '" << key << "' pressed with correct finger. " << (correctProp*100) << "%" << std::endl;
+
+		}
+
     return 0;
 }
 
