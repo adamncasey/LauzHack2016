@@ -10,7 +10,7 @@
 namespace keyboard {
 
 #ifdef _WIN32
-namespace {
+
 	LogiLed::KeyName mapFromKeyNum(KeyNum key) {
 		switch(key) {
 			case 'a':
@@ -71,16 +71,16 @@ namespace {
 		
 		return LogiLed::ESC;
 	}
+namespace {
 	
 	void setLigthingForKeys(std::vector<LogiLed::KeyName>& keyName, int redPercentage, int greenPercentage, int bluePercentage) {
 	    for(LogiLed::KeyName key:keyName) {
 	        LogiLedSetLightingForKeyWithKeyName(key, redPercentage, greenPercentage, bluePercentage);
 	    }
 	}
-
 	static const int RED = 100;
-	static const int GREEN = 0;
-	static const int BLUE = 0;
+	static const int GREEN = 100;
+	static const int BLUE = 100;
 }
 
 Flasher::Flasher() {

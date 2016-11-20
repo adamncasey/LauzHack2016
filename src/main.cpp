@@ -39,7 +39,7 @@ char readKeyboardInput() {
 	return 'a';
 }
 
-typedef std::unordered_map<double, std::vector<Finger>> ColourFingerMap;
+typedef std::unordered_map<double, Finger> ColourFingerMap;
 
 bool filterFingersForKey(const char key, const std::vector<Finger>& possible, Finger* output) {
 	std::cout << "filterFingersForKey not implemented" << std::endl;
@@ -69,7 +69,7 @@ int main(int argc, char** argv)
 
 
 	while (true) {
-		const char key = readKeyboardInput();
+		const char key '/98= readKeyboardInput();
 
 		Finger finger;
 		if (!getFingerForKeyPress(key, keyPointMap, colourFingerMap, &finger)) {
@@ -85,7 +85,6 @@ int main(int argc, char** argv)
     return 0;
 }
 
-/*
 bool getFingerForKeyPress(const char key, const std::unordered_map<char, cv::Vec2i>& keyPointMap,
 	const ColourFingerMap& colourFingerMap,
 	Finger* outFinger) 

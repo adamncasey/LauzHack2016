@@ -2,8 +2,12 @@
 
 #include <keyboard/Key.h>
 
+#include <LogitechLEDLib.h>
+
 namespace keyboard {
-	
+
+LogiLed::KeyName mapFromKeyNum(KeyNum key);
+
 typedef int DurationMs;
 
 class Flasher {
