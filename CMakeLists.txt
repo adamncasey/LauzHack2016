@@ -12,9 +12,9 @@ include_directories(${OpenCV_INCLUDE_DIRS})
 include_directories(${Lauzhack_SOURCE_DIR}/src)
 include_directories(${Lauzhack_SOURCE_DIR}/include)
                     
-add_executable(main ${Lauzhack_SOURCE_DIR}/src/main.cpp ${Lauzhack_SOURCE_DIR}/src/calibrate.cpp ${Lauzhack_SOURCE_DIR}/src/colour.cpp  ${Lauzhack_SOURCE_DIR}/src/keyboard/Flasher.cpp ${Lauzhack_SOURCE_DIR}/src/calibrateColors.cpp ${Lauzhack_SOURCE_DIR}/src/keyToFinger.cpp)
+add_executable(main ${Lauzhack_SOURCE_DIR}/src/main.cpp )
 
-target_link_libraries(main ${OpenCV_LIBS})
+target_link_libraries(main ${OpenCV_LIBS} pthread)
 if(NOT UNIX)
 	target_link_libraries(main ${Lauzhack_SOURCE_DIR}/lib_win64/LogitechLEDLib.lib)
 endif()

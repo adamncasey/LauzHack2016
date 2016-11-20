@@ -77,3 +77,42 @@ bool getFingerForKeyPress(const char key, const std::unordered_map<char, cv::Vec
 	return checkForCorrectFinger(colourFingerMap, key, keyPointMap, frame);
 }
 
+
+//#include <thread>
+//#include <mutex>
+//
+//using namespace cv;
+//
+//std::mutex mtxCam;
+//Mat frame;
+//void CaptureFrames() {
+//  VideoCapture capture(0);
+//  if (!capture.isOpened()) {
+//      std::cout << "cannot open camera" << std::endl;
+//  }
+//
+//  while (true) {
+//      mtxCam.lock();
+//      capture >> mutex;
+//      mtxCam.unlock();
+//      if (waitKey(30) >= 0) { break; }
+//  }
+//}
+//
+//
+//int main(int argc, char** argv[]) {
+//    std::thread t1(CaptureFrames);
+//
+//  while(true) {
+//      if (!mutex.empty()) {
+//          mtxCam.lock();
+//          imshow("multithread test", frame);
+//          mtxCam.unlock();
+//      }
+//    if(waitKey(30) >= 0) {break;}
+//  }
+//
+//  return 0;
+//}
+
+
