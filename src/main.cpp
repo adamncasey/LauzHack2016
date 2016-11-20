@@ -10,6 +10,7 @@ using namespace cv;
 
 int main(int argc, char** argv)
 {
+
 	std::string alphabet = "abcdefghijklmnopqrstuvwxyz";
 	std::unordered_map<char, cv::Vec2i> keyPointMap = calibrateKeyboard(alphabet);
 
