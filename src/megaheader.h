@@ -19,7 +19,7 @@ enum class Finger
 };
 
 
-struct AlphaDisruptColourTransform{
+struct AlphaDisruptColourTransform {
     double hue;
     double saturation;
     char key;

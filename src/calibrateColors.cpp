@@ -11,11 +11,11 @@ std::map<AlphaDisruptColourTransform, Finger> calibrateColours(std::unordered_ma
     double i = 0.0;
     
     for(std::map<char, Finger>::iterator it = calibrationKeys.begin(); it != calibrationKeys.end(); it++){
-        AlphaDisruptColourTransform colour {
+        AlphaDisruptColourTransform colour = {
             2+i,
             3,
             (*it).first
-        };//getColourAtPoint((*keysToLocationMap.find(*it.first)), frame);
+        };
         calibrationMap.insert({colour, (*it).second});
         i +=1;
         std::cout << colour.hue << " -> " << (int)(*it).second << (*it).first << std::endl;
