@@ -14,6 +14,8 @@ char readKeyboardInput() {
 
 typedef std::map<AlphaDisruptColourTransform, Finger> ColourFingerMap;
 
+Mat createGui(Mat im1, bool error);
+
 bool getFingerForKeyPress(const char key, const std::unordered_map<char, cv::Vec2i>& keyPointMap,
 	const ColourFingerMap& colourFingerMap,
 	VideoCapture& capture);
@@ -57,10 +59,17 @@ int main(int argc, char** argv)
 
 		if (!getFingerForKeyPress(key, keyPointMap, colourFingerMap, capture)) {
 			std::cout << "Failed to find a finger for a key: " << key << std::endl;
+
+			frame = createGui(frame, 1)
+			cv::imshow("Display window", frame);
+
 			continue;
 		}
 
 		std::cout << "We detected a '" << key << "' pressed with correct finger" << std::endl;
+
+		frame = createGui(frame, 0)
+		cv::imshow("Display window", frame);
 		
 	}
     
@@ -75,6 +84,43 @@ bool getFingerForKeyPress(const char key, const std::unordered_map<char, cv::Vec
 	capture.retrieve(frame);
 
 	return checkForCorrectFinger(colourFingerMap, key, keyPointMap, frame);
+}
+
+
+Mat createGui(Mat im1, bool error) {
+
+bool correctFinger = 0;
+string greatText1 = "Practice your typing skills with our great tool";
+string greatText2 = "Just type this text and the program will assess your";
+string greatText3 = "ten finger typing technique";
+string greatText4 = "The quick brown fox jumped over the lazy dog";
+
+Size sz1 = im1.size();
+Size sz2 = sz1;
+
+Mat im2(sz2.height, sz2.width, CV_8UC3);
+
+if (!error)
+im2 = Scalar(0, 0, 255);
+else
+im2 = Scalar(0, 0, 0);
+
+putText(im2, greatText1, cvPoint(30,30),
+		FONT_HERSHEY_COMPLEX_SMALL, 0.8, cvScalar(200,200,250), 1, CV_AA);
+putText(im2, greatText2, cvPoint(30,60),
+		FONT_HERSHEY_COMPLEX_SMALL, 0.8, cvScalar(200,200,250), 1, CV_AA);
+putText(im2, greatText3, cvPoint(30,90),
+		FONT_HERSHEY_COMPLEX_SMALL, 0.8, cvScalar(200,200,250), 1, CV_AA);
+putText(im2, greatText4, cvPoint(30,120),
+		FONT_HERSHEY_COMPLEX_SMALL, 0.8, cvScalar(200,200,250), 1, CV_AA);
+
+Mat im3(sz1.height, sz1.width+sz2.width, CV_8UC3);
+Mat left(im3, Rect(0, 0, sz1.width, sz1.height));
+
+im1.copyTo(left);
+Mat right(im3, Rect(sz1.width, 0, sz2.width, sz2.height));
+im2.copyTo(right);
+
 }
 
 
