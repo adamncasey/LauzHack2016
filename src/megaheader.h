@@ -40,7 +40,7 @@ struct AlphaDisruptColourTransform {
 
 AlphaDisruptColourTransform getColourAtPoint(const cv::Vec2i& coords, cv::Mat image);
 
-std::unordered_map<char, cv::Vec2i> calibrateKeyboard(std::string keys);
+std::unordered_map<char, cv::Vec2i> calibrateKeyboard(std::string keys, cv::VideoCapture& capture);
 std::map<AlphaDisruptColourTransform, Finger> calibrateColours(std::unordered_map<char, cv::Vec2i>, cv::Mat frame);
 
 bool checkForCorrectFinger(std::map<AlphaDisruptColourTransform, Finger> colorToFingerMap, char pressedKey, std::unordered_map<char, cv::Vec2i> keysToLocationMap, cv::Mat image);

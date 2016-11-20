@@ -66,7 +66,7 @@ namespace keyboard {
 				return LogiLed::Y;
 			case 'z':
 				return LogiLed::Z;
-			case ':':
+			case ';':
 				return LogiLed::SEMICOLON;
 		}
 		

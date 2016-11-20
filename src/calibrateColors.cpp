@@ -10,15 +10,11 @@ std::map<AlphaDisruptColourTransform, Finger> calibrateColours(std::unordered_ma
     std::map<char, Finger> calibrationKeys {{'a',Finger::SMALL_LEFT},{'a',Finger::SMALL_LEFT},{'s',Finger::RING_LEFT},{'d',Finger::MIDDLE_LEFT},{'f',Finger::POINTING_LEFT},{'j',Finger::POINTING_RIGHT},{'k',Finger::MIDDLE_RIGHT},{'l',Finger::RING_RIGHT},{';',Finger::SMALL_RIGHT}};
     double i = 0.0;
     
-    for(std::map<char, Finger>::iterator it = calibrationKeys.begin(); it != calibrationKeys.end(); it++){
-		AlphaDisruptColourTransform colour;
-		colour.hue = 2 + i;
-		colour.saturation = 3;
-		colour.key = (*it).first;
+    for(auto&& entry : calibrationKeys) {
+		AlphaDisruptColourTransform colour = getColourAtPoint(keysToLocationMap[entry.first], frame);
 
-        calibrationMap.insert({colour, (*it).second});
-        i +=1;
-        std::cout << colour.hue << " -> " << (int)(*it).second << (*it).first << std::endl;
+        calibrationMap.insert({colour, entry.second});
+        std::cout << colour.hue << " -> " << (int)entry.second << entry.first << std::endl;
     }
     
     return calibrationMap;
@@ -28,13 +24,11 @@ std::map<AlphaDisruptColourTransform, Finger> calibrateColours(std::unordered_ma
 
 bool checkForCorrectFinger(std::map<AlphaDisruptColourTransform, Finger> colorToFingerMap, char pressedKey, std::unordered_map<char, cv::Vec2i> keysToLocationMap, cv::Mat image) {
     
-    cv::Vec2d coords = keysToLocationMap.find(pressedKey)->second;
-	AlphaDisruptColourTransform colour;
-	colour.hue = 0.0;
-	colour.saturation = 0.0;
+    cv::Vec2d coords = keysToLocationMap[pressedKey];
+	AlphaDisruptColourTransform colour = getColourAtPoint(coords, image);
 
     std::vector<AlphaDisruptColourTransform> orderedValues;
-    double i = 1.0;
+
     for(std::map<AlphaDisruptColourTransform, Finger>::iterator it = colorToFingerMap.begin(); it != colorToFingerMap.end(); it++){
         double distanceToDetectedColor = sqrt(pow(it->first.hue - colour.hue, 2) + pow(it->first.saturation- colour.saturation,2));
 		AlphaDisruptColourTransform colorTransform;
@@ -45,7 +39,6 @@ bool checkForCorrectFinger(std::map<AlphaDisruptColourTransform, Finger> colorTo
 		colorTransform.distanceToDetectedColor = distanceToDetectedColor;
 
         orderedValues.push_back(colorTransform);
-        i++;
     }
     
     std::sort(orderedValues.begin(), orderedValues.end());
@@ -55,23 +48,6 @@ bool checkForCorrectFinger(std::map<AlphaDisruptColourTransform, Finger> colorTo
     }
     Finger correctFinger = keyToFinger(pressedKey);
     std::cout << "Correct Finger: " << (int) correctFinger << " Finger suggestion one: " << (int) orderedValues[0].finger << " Finger suggestion two: " << (int) orderedValues[1].finger << std::endl;
-    return (int)correctFinger == (int) orderedValues[0].finger || (int)correctFinger == (int) orderedValues[1].finger;
-    
-    //to be changed once David is finished
-    /*bool isLeftSide = std::find(leftKeyboardSide.begin(),leftKeyboardSide.end(), pressedKey) != leftKeyboardSide.end();
-    if(isLeftSide){
-        for(std::map<AlphaDisruptColourTransform, Finger>::iterator innerIt = smallestTwoValues.begin(); innerIt != smallestTwoValues.end(); innerIt++){
-            if(std::find(leftKeyboardSide.begin(), leftKeyboardSide.end(), innerIt->first.key) != leftKeyboardSide.end()){
-                return innerIt->second;
-            }
-        }
-    }else{
-        for(std::map<AlphaDisruptColourTransform, Finger>::iterator innerIt = smallestTwoValues.begin(); innerIt != smallestTwoValues.end(); innerIt++){
-            if(std::find(rightKeyboardSide.begin(), rightKeyboardSide.end(), innerIt->first.key) != rightKeyboardSide.end()){
-                return innerIt->second;
-            }
-        }
-    }*/
-    
+    return correctFinger == orderedValues[0].finger || correctFinger == orderedValues[1].finger;    
 }
 

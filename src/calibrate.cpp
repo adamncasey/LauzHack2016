@@ -18,7 +18,7 @@ using namespace std;
 static const int WAIT_FOR_LED = 150;
 
 
-std::unordered_map<char, cv::Vec2i> calibrateKeyboard(std::string alphabet)
+std::unordered_map<char, cv::Vec2i> calibrateKeyboard(std::string alphabet, cv::VideoCapture& capture)
 {
 	using namespace std::chrono_literals;
 
@@ -26,18 +26,9 @@ std::unordered_map<char, cv::Vec2i> calibrateKeyboard(std::string alphabet)
 
 	std::this_thread::sleep_for(1s);
 
-//    Mat reference;
-//    reference = imread("/home/richard/projects/LauzHack2016/data/calibRef.png", CV_LOAD_IMAGE_COLOR);
-
-	VideoCapture cap(1);
-
 	Mat frame;
-	for (int i = 0; i < 20; i++) {
-		cap >> frame;
-	}
 
 	std::unordered_map<char, cv::Vec2i> result;
-	namedWindow("Display window", WINDOW_AUTOSIZE);// Create a window for display.
 	std::for_each(alphabet.begin(), alphabet.end(), [&](const char ch) {
 
         // TODO: Turn Keyboard lights off here and wait a bit
@@ -46,7 +37,7 @@ std::unordered_map<char, cv::Vec2i> calibrateKeyboard(std::string alphabet)
 		std::this_thread::sleep_for(std::chrono::milliseconds(WAIT_FOR_LED));
 
         Mat reference;
-        cap >> reference;
+        capture >> reference;
 
         Mat referenceBw;
         cvtColor(reference,referenceBw, CV_RGB2GRAY);
@@ -56,7 +47,7 @@ std::unordered_map<char, cv::Vec2i> calibrateKeyboard(std::string alphabet)
 		std::this_thread::sleep_for(std::chrono::milliseconds(WAIT_FOR_LED));
 
 		while (true) {
-			cap >> frame;
+			capture >> frame;
 
 			Mat frameBw;
 			cvtColor(frame, frameBw, CV_RGB2GRAY);
@@ -65,7 +56,7 @@ std::unordered_map<char, cv::Vec2i> calibrateKeyboard(std::string alphabet)
 			absdiff(frameBw, referenceBw, frameBw);
 			threshold(frameBw, frameBw, THRESH_OTSU, 255, THRESH_BINARY);
 
-			int morph_size = 2;
+			int morph_size = 1;
 			Mat element = getStructuringElement(MORPH_RECT, Size(2 * morph_size + 1, 2 * morph_size + 1), Point(morph_size, morph_size));
 			morphologyEx(frameBw, frameBw, MORPH_OPEN, element);
 
@@ -93,22 +84,16 @@ std::unordered_map<char, cv::Vec2i> calibrateKeyboard(std::string alphabet)
 			circle(frame, Point(cx, cy), 8, Scalar(255, 255, 255), 1, 8);
 
 
-
-			// TODO write position to output here
-
 			cout << "found key: " << ch << endl;
 			result.insert(std::pair<char, cv::Vec2i>(ch, { (int)cx, (int)cy }));
 
 			imshow("Display window", frame);
 			waitKey(50);
-			/*imshow("Display window", reference);
-			waitKey();*/
 			break;
 		}
 
     });
 
-	waitKey();
 	return result;
 }
 
