@@ -20,6 +20,7 @@ bool getFingerForKeyPress(const char key, const std::unordered_map<char, cv::Vec
 
 int main(int argc, char** argv)
 {
+    std::map<char, int> keyMap;
 	static const std::string alphabet = "abcdefghijklmnopqrstuvwxyz;";
 
 	VideoCapture capture(1);
@@ -49,6 +50,8 @@ int main(int argc, char** argv)
 		if (key == -1) {
 			continue;
 		}
+        
+
 		capture >> frame;
 		capture >> frame;
 		capture >> frame;
@@ -57,7 +60,13 @@ int main(int argc, char** argv)
 
 		if (!getFingerForKeyPress(key, keyPointMap, colourFingerMap, capture)) {
 			std::cout << "Failed to find a finger for a key: " << key << std::endl;
-			continue;
+            std::map<char, int>::iterator currentKeyIt = keyMap.find((char)key);
+            if(currentKeyIt == keyMap.end()){
+                keyMap.insert({(char)key, 1});
+            }else{
+                keyMap.insert({(char) key, currentKeyIt->second+1});
+            }
+            continue;
 		}
 
 		std::cout << "We detected a '" << key << "' pressed with correct finger" << std::endl;
