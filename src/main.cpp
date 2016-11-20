@@ -5,6 +5,9 @@
 #include <unordered_map>
 #include <chrono>
 
+#include <LogitechLEDLib.h>
+#include <keyboard/Flasher.h>
+
 #include <megaheader.h>
 
 using namespace cv;
@@ -41,7 +44,7 @@ int main(int argc, char** argv)
 		capture >> frame;
 	}
     
-	const std::unordered_map<char, cv::Vec2i> keyPointMap = calibrateKeyboard(alphabet, capture);
+	std::unordered_map<char, cv::Vec2i> keyPointMap = calibrateKeyboard(alphabet, capture);
 
 	std::cout << "Keyboard Calibrated. Please place your hands on these keys: (a, w, e, f) and (j, i, o, ;)" << std::endl;
 	std::cout << "Press any key to continue" << std:: endl;
@@ -60,7 +63,10 @@ int main(int argc, char** argv)
 		int key = cv::waitKey(15);
 		if (key == -1) {
 			continue;
+		} else if(key == 27  ) { // ESC
+			break;
 		}
+		
 		auto duration = std::chrono::system_clock::now().time_since_epoch();
 		auto duration_ms = std::chrono::duration_cast<std::chrono::milliseconds>(duration);
 
@@ -82,6 +88,8 @@ int main(int argc, char** argv)
 			std::cout << "Failed to find a finger for a key: " << key << std::endl;
 			keyMap[key]++;
 
+			circle(frame, keyPointMap[(char)key], 10, cv::Scalar(255, 255, 255), 3);
+
 			frame = createGui(frame, 1);
 			cv::imshow("Display window", frame);
 
@@ -97,6 +105,22 @@ int main(int argc, char** argv)
         correctProp = numCorrect/numTries;
         std::cout << "Correct! '" << key << "' pressed with correct finger. " << (correctProp*100) << "%" << std::endl;
 	}
+
+	auto max = std::max_element
+	(
+		std::begin(keyMap), std::end(keyMap),
+		[](auto& p1, auto& p2) {
+			return p1.second < p2.second;
+		}
+	)->second;
+
+	for (auto&& entry : keyMap) {
+		double element = (double)entry.second / max;
+		LogiLedSetLightingForKeyWithKeyName(keyboard::mapFromKeyNum(entry.first), element, element, element);
+	}
+
+	waitKey();
+	waitKey();
 
     return 0;
 }
@@ -114,7 +138,7 @@ bool getFingerForKeyPress(const char key, const std::unordered_map<char, cv::Vec
 
 Mat createGui(Mat im1, bool error) {
 
-	bool correctFinger = 0;
+	
 	const std::string greatText1 = "Practice your typing skills with our great tool";
 	const std::string greatText2 = "Just type this text and the program will assess your";
 	const std::string greatText3 = "ten finger typing technique";
@@ -125,11 +149,11 @@ Mat createGui(Mat im1, bool error) {
 
 	Mat im2(sz2.height, sz2.width, CV_8UC3);
 
-	if (!error)
-	im2 = Scalar(0, 0, 255);
+	if (error)
+		im2.setTo(Scalar(0, 0, 255));
 	else
-	im2 = Scalar(0, 0, 0);
-
+		im2.setTo(Scalar(0, 0, 0));
+	
 	putText(im2, greatText1, cvPoint(30,30),
 			FONT_HERSHEY_COMPLEX_SMALL, 0.8, cvScalar(200,200,250), 1, CV_AA);
 	putText(im2, greatText2, cvPoint(30,60),
@@ -138,14 +162,15 @@ Mat createGui(Mat im1, bool error) {
 			FONT_HERSHEY_COMPLEX_SMALL, 0.8, cvScalar(200,200,250), 1, CV_AA);
 	putText(im2, greatText4, cvPoint(30,120),
 			FONT_HERSHEY_COMPLEX_SMALL, 0.8, cvScalar(200,200,250), 1, CV_AA);
-
+			
 	Mat im3(sz1.height, sz1.width+sz2.width, CV_8UC3);
 	Mat left(im3, Rect(0, 0, sz1.width, sz1.height));
 
 	im1.copyTo(left);
 	Mat right(im3, Rect(sz1.width, 0, sz2.width, sz2.height));
 	im2.copyTo(right);
-
+	
+	return im3;
 }
 
 

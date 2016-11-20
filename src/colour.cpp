@@ -25,6 +25,5 @@ AlphaDisruptColourTransform getColourAtPoint(const cv::Vec2i& coords, cv::Mat im
 	colour.saturation = sat;
 
 	cv::circle(image, coords, kernelSize, cv::Scalar(0, 0, 255));
-	cv::imshow("Display window", image);
     return colour;
 }

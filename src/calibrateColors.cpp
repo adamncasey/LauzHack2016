@@ -24,7 +24,14 @@ std::map<AlphaDisruptColourTransform, Finger> calibrateColours(std::unordered_ma
 
 bool checkForCorrectFinger(std::map<AlphaDisruptColourTransform, Finger> colorToFingerMap, char pressedKey, std::unordered_map<char, cv::Vec2i> keysToLocationMap, cv::Mat image) {
     
-    cv::Vec2d coords = keysToLocationMap[pressedKey];
+	std::unordered_map<char, cv::Vec2i>::const_iterator it = keysToLocationMap.find(pressedKey);
+
+	if (it == keysToLocationMap.end()) {
+		std::cout << "Unknown key pressed" << std::endl;
+		return false;
+	}
+
+	cv::Vec2d coords = it->second;
 	AlphaDisruptColourTransform colour = getColourAtPoint(coords, image);
 
     std::vector<AlphaDisruptColourTransform> orderedValues;
