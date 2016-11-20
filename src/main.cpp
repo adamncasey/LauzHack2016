@@ -3,6 +3,7 @@
 #include <opencv2/imgproc/imgproc.hpp>
 
 #include <unordered_map>
+#include <chrono>
 
 #include <megaheader.h>
 
@@ -25,6 +26,10 @@ int main(int argc, char** argv)
 
 	VideoCapture capture(1);
 	capture.set(cv::CAP_PROP_AUTOFOCUS, 0);
+	capture.set(cv::CAP_PROP_BUFFERSIZE, 1);
+	capture.set(cv::CAP_PROP_FPS, 30);
+
+	std::cout << "Camera FPS: " << capture.get(cv::CAP_PROP_FPS) << std::endl;
 
 	namedWindow("Display window", WINDOW_AUTOSIZE);// Create a window for display.
 
@@ -54,9 +59,13 @@ int main(int argc, char** argv)
 		if (key == -1) {
 			continue;
 		}
-        
+		auto duration = std::chrono::system_clock::now().time_since_epoch();
+		auto duration_ms = std::chrono::duration_cast<std::chrono::milliseconds>(duration);
+		std::cout << duration_ms.count() << std::endl;
 
 		capture >> frame;
+		std::cout << "video ms: " << capture.get(cv::CAP_PROP_POS_MSEC) << std::endl;
+
 		capture >> frame;
 		capture >> frame;
 		capture >> frame;
