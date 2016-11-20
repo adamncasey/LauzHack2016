@@ -16,7 +16,6 @@ typedef std::map<AlphaDisruptColourTransform, Finger> ColourFingerMap;
 
 bool getFingerForKeyPress(const char key, const std::unordered_map<char, cv::Vec2i>& keyPointMap,
 	const ColourFingerMap& colourFingerMap,
-	Finger* outFinger,
 	VideoCapture& capture);
 
 int main(int argc, char** argv)
@@ -30,30 +29,38 @@ int main(int argc, char** argv)
 
 	cv::Mat frame;
 	// remove the first few frames of rubbish
-	for (int i = 0; i < 20; i++) {
+	for (int i = 0; i < 10; i++) {
 		capture >> frame;
 	}
     
 	const std::unordered_map<char, cv::Vec2i> keyPointMap = calibrateKeyboard(alphabet, capture);
 
 	std::cout << "Keyboard Calibrated. Please place your hands on the home keys." << std::endl;
-	std::cout << "Press any home key to continue" << std::endl;
+	std::cout << "Press any home key to continue" << std:: endl;
 	waitKey();
 
-	capture >> frame;
+	for (int i = 1; i < 20; i++) {
+		capture >> frame;
+	}
 	std::map<AlphaDisruptColourTransform, Finger> colourFingerMap = calibrateColours(keyPointMap, frame);
 
 	while (true) {
-		const char key = readKeyboardInput();
+		int key = cv::waitKey(15);
+		if (key == -1) {
+			continue;
+		}
+		capture >> frame;
+		capture >> frame;
+		capture >> frame;
+		capture >> frame;
+		capture >> frame;
 
-		Finger finger;
-		if (!getFingerForKeyPress(key, keyPointMap, colourFingerMap, &finger, capture)) {
+		if (!getFingerForKeyPress(key, keyPointMap, colourFingerMap, capture)) {
 			std::cout << "Failed to find a finger for a key: " << key << std::endl;
 			continue;
 		}
 
-		std::cout << "We detected a '" << key << "' pressed with finger: " 
-				  << (int)finger << std::endl;
+		std::cout << "We detected a '" << key << "' pressed with correct finger" << std::endl;
 		
 	}
     
@@ -62,11 +69,10 @@ int main(int argc, char** argv)
 
 bool getFingerForKeyPress(const char key, const std::unordered_map<char, cv::Vec2i>& keyPointMap,
 	const ColourFingerMap& colourFingerMap,
-	Finger* outFinger,
 	VideoCapture& capture)
 {
 	cv::Mat frame;
-	capture >> frame;
+	capture.retrieve(frame);
 
 	return checkForCorrectFinger(colourFingerMap, key, keyPointMap, frame);
 }

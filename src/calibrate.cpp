@@ -41,17 +41,20 @@ std::unordered_map<char, cv::Vec2i> calibrateKeyboard(std::string alphabet, cv::
 
         Mat referenceBw;
         cvtColor(reference,referenceBw, CV_RGB2GRAY);
-        GaussianBlur(referenceBw,referenceBw,Size(3,3),0);
+        GaussianBlur(referenceBw,referenceBw,Size(5,5),0);
 
 		LogiLedSetLightingForKeyWithKeyName(keyboard::mapFromKeyNum(ch), 0, 0, 0);
 		std::this_thread::sleep_for(std::chrono::milliseconds(WAIT_FOR_LED));
 
+		int count = 0;
 		while (true) {
 			capture >> frame;
 
 			Mat frameBw;
+			Mat frameGray;
 			cvtColor(frame, frameBw, CV_RGB2GRAY);
-			GaussianBlur(frameBw, frameBw, Size(3, 3), 0);
+			frameBw.copyTo(frameGray);
+			GaussianBlur(frameBw, frameBw, Size(5,5), 0);
 
 			absdiff(frameBw, referenceBw, frameBw);
 			threshold(frameBw, frameBw, THRESH_OTSU, 255, THRESH_BINARY);
@@ -64,20 +67,42 @@ std::unordered_map<char, cv::Vec2i> calibrateKeyboard(std::string alphabet, cv::
 			vector<Vec4i> hierarchy;
 			findContours(frameBw, contours, hierarchy, CV_RETR_TREE, CV_CHAIN_APPROX_SIMPLE, Point(0, 0));
 
+			if (contours.size() <= 0) {
+				std::cout << "No contours found. retrying" << std::endl;
+			}
+
 			vector<Moments> mu(contours.size());
+
+			std::vector<double> colorIntensities(contours.size());
 			for (int i = 0; i < contours.size(); i++)
 			{
+				cv::Mat temp;
+				frameGray.copyTo(temp);
+				temp.setTo(0);
+				drawContours(temp, contours, i, 255, CV_FILLED);
+				colorIntensities[i] = cv::mean(frameGray, temp)[0];
+				std::cout << "Color intensity: " << i << " :" << colorIntensities[i] << std::endl;
 				mu[i] = moments(contours[i], false);
 			}
 
-			if (mu.size() <= 0) {
+			int mode = std::distance(colorIntensities.begin(), std::max_element(colorIntensities.begin(), colorIntensities.end()));
+
+
+
+
+/*if (mu.size() == 0 || ( mu.size() > 2 ) ) {
 				std::cout << "mu zero" << std::endl;
+				count++;
 				continue;
 			}
 
+			std::sort(mu.begin(), mu.end(), [&](auto lval, auto rval) {
+				return lval.m00 < rval.m00;
+			});*/
+
 			double cx, cy;
-			cx = mu[0].m10 / mu[0].m00;
-			cy = mu[0].m01 / mu[0].m00;
+			cx = mu[mode].m10 / mu[mode].m00;
+			cy = mu[mode].m01 / mu[mode].m00;
 
 			cout << cx << " " << cy << "mu.size(): " << mu.size() << endl;
 
