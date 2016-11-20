@@ -44,6 +44,10 @@ int main(int argc, char** argv)
 	}
 	std::map<AlphaDisruptColourTransform, Finger> colourFingerMap = calibrateColours(keyPointMap, frame);
 
+	double correctProp = 0;
+	int numTries = 0;
+	double numCorrect = 0;
+
 	while (true) {
 		int key = cv::waitKey(15);
 		if (key == -1) {
@@ -55,11 +59,15 @@ int main(int argc, char** argv)
 		capture >> frame;
 		capture >> frame;
 
+		numTries++;
+
 		if (!getFingerForKeyPress(key, keyPointMap, colourFingerMap, capture)) {
 			std::cout << "Failed to find a finger for a key: " << key << std::endl;
 			continue;
 		}
 
+		numCorrect += 1.0;
+		correctProp = numCorrect/numTries;
 		std::cout << "We detected a '" << key << "' pressed with correct finger" << std::endl;
 		
 	}
