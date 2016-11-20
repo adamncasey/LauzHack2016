@@ -61,15 +61,20 @@ int main(int argc, char** argv)
 		}
 		auto duration = std::chrono::system_clock::now().time_since_epoch();
 		auto duration_ms = std::chrono::duration_cast<std::chrono::milliseconds>(duration);
-		std::cout << duration_ms.count() << std::endl;
+
+		std::cout << "System time ms: " << duration_ms.count() << std::endl;
 
 		capture >> frame;
-		std::cout << "video ms: " << capture.get(cv::CAP_PROP_POS_MSEC) << std::endl;
 
 		capture >> frame;
 		capture >> frame;
+
+
 		capture >> frame;
-		capture >> frame;
+		Mat frame2;
+		capture >> frame2;
+
+		cv::addWeighted(frame2, 0.5, frame, 0.5, 0.0, frame);
 
 		numTries++;
 
