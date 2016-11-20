@@ -7,7 +7,7 @@
 std::map<AlphaDisruptColourTransform, Finger> calibrateColours(std::unordered_map<char, cv::Vec2i> keysToLocationMap, cv::Mat frame){
     
     std::map<AlphaDisruptColourTransform, Finger> calibrationMap;
-    std::map<char, Finger> calibrationKeys {{'a',Finger::SMALL_LEFT},{'a',Finger::SMALL_LEFT},{'s',Finger::RING_LEFT},{'d',Finger::MIDDLE_LEFT},{'f',Finger::POINTING_LEFT},{'j',Finger::POINTING_RIGHT},{'k',Finger::MIDDLE_RIGHT},{'l',Finger::RING_RIGHT},{';',Finger::SMALL_RIGHT}};
+    std::map<char, Finger> calibrationKeys {{'a',Finger::SMALL_LEFT},{'w',Finger::RING_LEFT},{'e',Finger::MIDDLE_LEFT},{'f',Finger::POINTING_LEFT},{'j',Finger::POINTING_RIGHT},{'i',Finger::MIDDLE_RIGHT},{'o',Finger::RING_RIGHT},{';',Finger::SMALL_RIGHT}};
     double i = 0.0;
     
     for(auto&& entry : calibrationKeys) {
