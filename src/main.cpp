@@ -11,8 +11,11 @@ using namespace cv;
 int main(int argc, char** argv)
 {
 	std::string alphabet = "abcdefghijklmnopqrstuvwxyz";
-	std::unordered_map<char, cv::Vec2i> keyPointMap = calibrateKeyboard(alphabet);
-
+    std::unordered_map<char, cv::Vec2d> keysToLocationMap;
+    cv::Mat image;
+	//std::unordered_map<char, cv::Vec2i> keyPointMap = calibrateKeyboard(alphabet);
+    std::map<AlphaDisruptColourTransform, Finger> colorToFingerMap = calibrateColours(keysToLocationMap, image);
+    getFinger(colorToFingerMap, 'd', keysToLocationMap, image);
 //    // Default camera ID.
 //    int i = 0;
 //

@@ -27,32 +27,38 @@ std::map<AlphaDisruptColourTransform, Finger> calibrateColours(std::unordered_ma
 
 
 Finger getFinger(std::map<AlphaDisruptColourTransform, Finger> colorToFingerMap, char pressedKey, std::unordered_map<char, cv::Vec2d> keysToLocationMap, cv::Mat image){
+    
     cv::Vec2d coords = keysToLocationMap.find(pressedKey)->second;
-    AlphaDisruptColourTransform colour = getColourAtPoint(coords, image);
-    std::map<AlphaDisruptColourTransform, Finger> smallestTwoValues;
+    AlphaDisruptColourTransform colour{
+        0.0,
+        0.0,
+
+    };//getColourAtPoint(coords, image);
+    std::vector<AlphaDisruptColourTransform> orderedValues;
+    double i = 1.0;
     for(std::map<AlphaDisruptColourTransform, Finger>::iterator it = colorToFingerMap.begin(); it != colorToFingerMap.end(); it++){
-        it->first.distanceToDetectedColor = sqrt(pow(*it->first.hue - colour.hue, 2) + pow(*it->first.saturation- colour.saturation,2));
-        if(smallestTwoValues.size < 2){
-            smallestTwoValues.insert(*it);
-        }else{
-            std::map<AlphaDisruptColourTransform, Finger>::iterator toDelete;
-            bool errorIsSmaller = false;
-            for(std::map<AlphaDisruptColourTransform, Finger>::iterator innerIt = smallestTwoValues.begin(); innerIt != smallestTwoValues.end(); innerIt++){
-                toDelete = innerIt;
-                if(*it.distanceToDetectedColor < innerIt->first.distanceToDetectedColor){
-                    errorIsSmaller = true;
-                    break;
-                }
-                
-            }
-            if(errorIsSmaller){
-                smallestTwoValues.erase(toDelete);
-                smallestTwoValues.insert(*it);
-            }
-        }
-        
+        double distanceToDetectedColor = sqrt(pow(it->first.hue - colour.hue, 2) + pow(it->first.saturation- colour.saturation,2));
+        AlphaDisruptColourTransform colorTransform{
+            it->first.hue,
+            it->first.saturation,
+            it->first.key,
+            it->second,
+            distanceToDetectedColor
+        };
+        orderedValues.push_back(colorTransform);
+        i++;
     }
-    bool isLeftSide = std::find(leftKeyboardSide.begin(),leftKeyboardSide.end(), pressedKey) != leftKeyboardSide.end();
+    
+    std::sort(orderedValues.begin(), orderedValues.end());
+    
+    for(std::vector<AlphaDisruptColourTransform>::iterator it = orderedValues.begin(); it != orderedValues.end(); it++){
+        std::cout << "Hue:" << it->hue << " Saturation:" << it->saturation << " key:" << it->key << " finger:" << (int)it->finger << " distanceToReference: " <<it->distanceToDetectedColor << std::endl;
+    }
+    
+    return orderedValues[0].finger;
+    
+    //to be changed once David is finished
+    /*bool isLeftSide = std::find(leftKeyboardSide.begin(),leftKeyboardSide.end(), pressedKey) != leftKeyboardSide.end();
     if(isLeftSide){
         for(std::map<AlphaDisruptColourTransform, Finger>::iterator innerIt = smallestTwoValues.begin(); innerIt != smallestTwoValues.end(); innerIt++){
             if(std::find(leftKeyboardSide.begin(), leftKeyboardSide.end(), innerIt->first.key) != leftKeyboardSide.end()){
@@ -65,7 +71,7 @@ Finger getFinger(std::map<AlphaDisruptColourTransform, Finger> colorToFingerMap,
                 return innerIt->second;
             }
         }
-    }
+    }*/
     
 }
 
