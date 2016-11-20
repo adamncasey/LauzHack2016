@@ -26,7 +26,7 @@ std::map<AlphaDisruptColourTransform, Finger> calibrateColours(std::unordered_ma
 }
 
 
-Finger getFinger(std::map<AlphaDisruptColourTransform, Finger> colorToFingerMap, char pressedKey, std::unordered_map<char, cv::Vec2d> keysToLocationMap, cv::Mat image){
+bool checkForCorrectFinger(std::map<AlphaDisruptColourTransform, Finger> colorToFingerMap, char pressedKey, std::unordered_map<char, cv::Vec2d> keysToLocationMap, cv::Mat image){
     
     cv::Vec2d coords = keysToLocationMap.find(pressedKey)->second;
     AlphaDisruptColourTransform colour{
@@ -54,8 +54,9 @@ Finger getFinger(std::map<AlphaDisruptColourTransform, Finger> colorToFingerMap,
     for(std::vector<AlphaDisruptColourTransform>::iterator it = orderedValues.begin(); it != orderedValues.end(); it++){
         std::cout << "Hue:" << it->hue << " Saturation:" << it->saturation << " key:" << it->key << " finger:" << (int)it->finger << " distanceToReference: " <<it->distanceToDetectedColor << std::endl;
     }
-    
-    return orderedValues[0].finger;
+    Finger correctFinger = keyToFinger(pressedKey);
+    std::cout << "Correct Finger: " << (int) correctFinger << " Finger suggestion one: " << (int) orderedValues[0].finger << " Finger suggestion two: " << (int) orderedValues[1].finger << std::endl;
+    return (int)correctFinger == (int) orderedValues[0].finger || (int)correctFinger == (int) orderedValues[1].finger;
     
     //to be changed once David is finished
     /*bool isLeftSide = std::find(leftKeyboardSide.begin(),leftKeyboardSide.end(), pressedKey) != leftKeyboardSide.end();

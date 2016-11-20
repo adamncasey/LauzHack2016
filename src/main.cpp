@@ -16,7 +16,9 @@ int main(int argc, char** argv)
     cv::Mat image;
 	//std::unordered_map<char, cv::Vec2i> keyPointMap = calibrateKeyboard(alphabet);
     std::map<AlphaDisruptColourTransform, Finger> colorToFingerMap = calibrateColours(keysToLocationMap, image);
-    getFinger(colorToFingerMap, 'd', keysToLocationMap, image);
+    bool isCorrect = checkForCorrectFinger(colorToFingerMap, 'd', keysToLocationMap, image);
+    
+    std::cout << "Used correct Finger? " << isCorrect << std::endl;
 //    // Default camera ID.
 //    int i = 0;
 //

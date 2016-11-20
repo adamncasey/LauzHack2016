@@ -46,7 +46,7 @@ std::map<AlphaDisruptColourTransform, Finger> calibrateColours(std::unordered_ma
 
 
 
-Finger getFinger(std::map<AlphaDisruptColourTransform, Finger>, char pressedKey, std::unordered_map<char, cv::Vec2i> keysToLocationMap);
+bool checkForCorrectFinger(std::map<AlphaDisruptColourTransform, Finger>, char pressedKey, std::unordered_map<char, cv::Vec2d> keysToLocationMap, cv::Mat image);
 
 Finger keyToFinger(keyboard::KeyNum keyNum);
 
