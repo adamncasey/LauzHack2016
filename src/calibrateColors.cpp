@@ -43,11 +43,11 @@ bool checkForCorrectFinger(std::map<AlphaDisruptColourTransform, Finger> colorTo
     
     std::sort(orderedValues.begin(), orderedValues.end());
     
-    for(std::vector<AlphaDisruptColourTransform>::iterator it = orderedValues.begin(); it != orderedValues.end(); it++){
+    /*for(std::vector<AlphaDisruptColourTransform>::iterator it = orderedValues.begin(); it != orderedValues.end(); it++){
         std::cout << "Hue:" << it->hue << " Saturation:" << it->saturation << " key:" << it->key << " finger:" << (int)it->finger << " distanceToReference: " <<it->distanceToDetectedColor << std::endl;
-    }
+    }*/
     Finger correctFinger = keyToFinger(pressedKey);
-    std::cout << "Correct Finger: " << (int) correctFinger << " Finger suggestion one: " << (int) orderedValues[0].finger << " Finger suggestion two: " << (int) orderedValues[1].finger << std::endl;
+    //std::cout << "Correct Finger: " << (int) correctFinger << " Finger suggestion one: " << (int) orderedValues[0].finger << " Finger suggestion two: " << (int) orderedValues[1].finger << std::endl;
     return correctFinger == orderedValues[0].finger || correctFinger == orderedValues[1].finger;    
 }
 

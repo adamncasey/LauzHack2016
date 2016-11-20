@@ -36,8 +36,8 @@ int main(int argc, char** argv)
     
 	const std::unordered_map<char, cv::Vec2i> keyPointMap = calibrateKeyboard(alphabet, capture);
 
-	std::cout << "Keyboard Calibrated. Please place your hands on the home keys." << std::endl;
-	std::cout << "Press any home key to continue" << std:: endl;
+	std::cout << "Keyboard Calibrated. Please place your hands on these keys: (a, w, e, f) and (j, i, o, ;)" << std::endl;
+	std::cout << "Press any key to continue" << std:: endl;
 	waitKey();
 
 	for (int i = 1; i < 20; i++) {
@@ -77,8 +77,7 @@ int main(int argc, char** argv)
 
 		numCorrect += 1.0;
 		correctProp = numCorrect/numTries;
-		std::cout << "We detected a '" << key << "' pressed with correct finger" << std::endl;
-		
+		std::cout << "Correct! '" << key << "' pressed with correct finger. " << (correctProp*100) << "%" << std::endl;
 	}
     
     return 0;
