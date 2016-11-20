@@ -11,11 +11,11 @@ std::map<AlphaDisruptColourTransform, Finger> calibrateColours(std::unordered_ma
     double i = 0.0;
     
     for(std::map<char, Finger>::iterator it = calibrationKeys.begin(); it != calibrationKeys.end(); it++){
-        AlphaDisruptColourTransform colour = {
-            2+i,
-            3,
-            (*it).first
-        };
+		AlphaDisruptColourTransform colour;
+		colour.hue = 2 + i;
+		colour.saturation = 3;
+		colour.key = (*it).first;
+
         calibrationMap.insert({colour, (*it).second});
         i +=1;
         std::cout << colour.hue << " -> " << (int)(*it).second << (*it).first << std::endl;
@@ -29,22 +29,21 @@ std::map<AlphaDisruptColourTransform, Finger> calibrateColours(std::unordered_ma
 bool checkForCorrectFinger(std::map<AlphaDisruptColourTransform, Finger> colorToFingerMap, char pressedKey, std::unordered_map<char, cv::Vec2i> keysToLocationMap, cv::Mat image) {
     
     cv::Vec2d coords = keysToLocationMap.find(pressedKey)->second;
-    AlphaDisruptColourTransform colour{
-        0.0,
-        0.0,
+	AlphaDisruptColourTransform colour;
+	colour.hue = 0.0;
+	colour.saturation = 0.0;
 
-    };//getColourAtPoint(coords, image);
     std::vector<AlphaDisruptColourTransform> orderedValues;
     double i = 1.0;
     for(std::map<AlphaDisruptColourTransform, Finger>::iterator it = colorToFingerMap.begin(); it != colorToFingerMap.end(); it++){
         double distanceToDetectedColor = sqrt(pow(it->first.hue - colour.hue, 2) + pow(it->first.saturation- colour.saturation,2));
-        AlphaDisruptColourTransform colorTransform{
-            it->first.hue,
-            it->first.saturation,
-            it->first.key,
-            it->second,
-            distanceToDetectedColor
-        };
+		AlphaDisruptColourTransform colorTransform;
+		colorTransform.hue = it->first.hue;
+		colorTransform.saturation = it->first.saturation;
+		colorTransform.key = it->first.key;
+		colorTransform.finger = it->second;
+		colorTransform.distanceToDetectedColor = distanceToDetectedColor;
+
         orderedValues.push_back(colorTransform);
         i++;
     }

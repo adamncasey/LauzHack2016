@@ -20,7 +20,9 @@ AlphaDisruptColourTransform getColourAtPoint(const cv::Vec2i& coords, cv::Mat im
     hue = hue/idx;
     sat = sat/idx;
 
-    AlphaDisruptColourTransform colour = {hue,sat};
-    return colour;
+	AlphaDisruptColourTransform colour;
+	colour.hue = hue;
+	colour.saturation = sat;
 
+    return colour;
 }
