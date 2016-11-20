@@ -93,6 +93,7 @@ bool getFingerForKeyPress(const char key, const std::unordered_map<char, cv::Vec
 //
 //  while (true) {
 //      mtxCam.lock();
+//      // capture.grab();
 //      capture >> mutex;
 //      mtxCam.unlock();
 //      if (waitKey(30) >= 0) { break; }
@@ -106,6 +107,7 @@ bool getFingerForKeyPress(const char key, const std::unordered_map<char, cv::Vec
 //  while(true) {
 //      if (!mutex.empty()) {
 //          mtxCam.lock();
+//          // capture.retrieve(frame);
 //          imshow("multithread test", frame);
 //          mtxCam.unlock();
 //      }
