@@ -1,5 +1,6 @@
 #pragma once
 
+#include "keyboard/Key.h"
 #include <string>
 #include <unordered_map>
 
@@ -36,8 +37,18 @@ struct AlphaDisruptColourTransform{
 
 
 
+
 AlphaDisruptColourTransform getColourAtPoint(const cv::Vec2i& coords, cv::Mat image);
 
 std::unordered_map<char, cv::Vec2i> calibrateKeyboard(std::string keys);
 std::map<AlphaDisruptColourTransform, Finger> calibrateColours(std::unordered_map<char, cv::Vec2d>, cv::Mat frame);
+
+
+
+
+Finger getFinger(std::map<AlphaDisruptColourTransform, Finger>, char pressedKey, std::unordered_map<char, cv::Vec2i> keysToLocationMap);
+
+Finger keyToFinger(keyboard::KeyNum keyNum);
+
 Finger getFinger(std::map<AlphaDisruptColourTransform, Finger> colorToFingerMap, char pressedKey, std::unordered_map<char, cv::Vec2d> keysToLocationMap, cv::Mat image);
+
