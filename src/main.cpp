@@ -54,7 +54,7 @@ int main(int argc, char** argv)
 		capture >> frame;
 	}
 	std::map<AlphaDisruptColourTransform, Finger> colourFingerMap = calibrateColours(keyPointMap, frame);
-
+	imshow("Display name", frame);
 	double correctProp = 0;
 	int numTries = 0;
 	double numCorrect = 0;
