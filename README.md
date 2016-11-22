@@ -1,4 +1,4 @@
-# LauzHack2016
+ # LauzHack2016
 
 Touch Typing Tutorial
 =====================
@@ -10,12 +10,14 @@ Project Overview/Plan:
     1. Get image of key as it was pressed
     1. Identify which finger it was that pressed it (Coloured finger nails?)
 
-Build Requirements
+Build/Run Requirements
 ---------
 
  - Windows (x64)
  - Visual Studio 2015 setup for C++
     - Only VS 2015 has been tested, others may work
+ - OpenCV installed as CMake dependency
+   - See https://github.com/opencv/opencv
  - Logitech per-key LED keyboard.
    - Tested to work with the Logitech G810 Orion Spectrum
  - Webcam
@@ -30,5 +32,6 @@ Build Instructions
 5. Switch the active project to `main`
 6. Build & run
 
-
-
+Notes
+-----
+The webcam used in the project is hard coded to index 1. This is specified in `main.cpp`
